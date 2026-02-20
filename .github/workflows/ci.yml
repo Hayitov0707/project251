@@ -1,0 +1,24 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ main ]   # запуск при пуше в main
+  pull_request:
+    branches: [ main ]   # запуск при PR
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3           # клонируем код
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    - name: Install dependencies
+      run: |
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Run tests
+      run: |
+        if [ -f test_main.py ]; then pytest; else echo "No tests found"; fi
